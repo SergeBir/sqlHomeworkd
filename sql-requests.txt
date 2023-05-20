@@ -1,0 +1,47 @@
+CREATE TABLE "Жанры" (
+    "id_жанра" SERIAL PRIMARY KEY,
+    "название_жанра" VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE "Исполнители" (
+    "id_исполнителя" SERIAL PRIMARY KEY,
+    "имя_исполнителя" VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE "Жанры_Исполнители" (
+    "id_жанра" INTEGER NOT NULL REFERENCES "Жанры" ("id_жанра") ON DELETE CASCADE,
+    "id_исполнителя" INTEGER NOT NULL REFERENCES "Исполнители" ("id_исполнителя"),
+    PRIMARY KEY ("id_жанра", "id_исполнителя")
+);
+
+CREATE TABLE "Альбомы" (
+    "id_альбома" SERIAL PRIMARY KEY,
+    "название_альбома" VARCHAR(100) NOT NULL,
+    "год_выпуска" INTEGER NOT NULL
+);
+
+CREATE TABLE "Альбомы_Исполнители" (
+    "id_альбома" INTEGER NOT NULL REFERENCES "Альбомы" ("id_альбома"),
+    "id_исполнителя" INTEGER NOT NULL REFERENCES "Исполнители" ("id_исполнителя"),
+    PRIMARY KEY ("id_альбома", "id_исполнителя")
+);
+
+CREATE TABLE "Треки" (
+    "id_трека" SERIAL PRIMARY KEY,
+    "название_трека" VARCHAR(100) NOT NULL,
+    "длительность" INTEGER NOT NULL,
+    "id_альбома" INTEGER NOT NULL REFERENCES "Альбомы" ("id_альбома")
+);
+
+CREATE TABLE "Сборники" (
+    "id_сборника" SERIAL PRIMARY KEY,
+    "название_сборника" VARCHAR(100) NOT NULL,
+    "год_выпуска" INTEGER NOT NULL
+);
+
+CREATE TABLE "Сборники_Треки" (
+    "id_сборника" INTEGER NOT NULL REFERENCES "Сборники" ("id_сборника"),
+    "id_трека" INTEGER NOT NULL REFERENCES "Треки" ("id_трека"),
+    PRIMARY KEY ("id_сборника", "id_трека")
+);
+
